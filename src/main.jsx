@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import * as THREE from "three";
 import gsap from "gsap";
@@ -133,44 +133,17 @@ function ThreeAtmosphere() {
 }
 
 function Rsvp() {
-  const [note, setNote] = useState("");
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const name = String(data.get("name") || "").trim() || "ضيفنا الكريم";
-    const status = String(data.get("status") || "");
-    window.localStorage.setItem(
-      "houbara-rsvp",
-      JSON.stringify({ name, status, submittedAt: new Date().toISOString() })
-    );
-    setNote(`شكرًا ${name}، تم حفظ تأكيدكم: ${status}.`);
-  }
-
   return (
     <section className="rsvp" id="rsvp">
       <div className="rsvp__card fade-up">
         <p className="rsvp__kicker">RSVP</p>
         <h2>تأكيد الحضور</h2>
-        <p className="lead">يسعدنا استقبال تأكيدكم للمشاركة في أعمال الندوة.</p>
-        <form onSubmit={handleSubmit}>
-          <label>
-            الاسم الكريم
-            <input name="name" type="text" placeholder="اكتب الاسم هنا" autoComplete="name" />
-          </label>
-          <label>
-            حالة المشاركة
-            <select name="status" defaultValue="سأحضر بإذن الله">
-              <option>سأحضر بإذن الله</option>
-              <option>أعتذر عن الحضور</option>
-              <option>أحتاج إلى تواصل من المنظمين</option>
-            </select>
-          </label>
-          <button type="submit">إرسال التأكيد</button>
-          <p className="rsvp__note" role="status" aria-live="polite">
-            {note}
-          </p>
-        </form>
+        <p className="lead">يرجى تأكيد حضوركم عبر الرابط أدناه.</p>
+        <div className="rsvp__actions">
+          <a href="https://example.com" target="_blank" rel="noreferrer">
+            RSVP
+          </a>
+        </div>
       </div>
     </section>
   );
