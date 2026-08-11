@@ -250,31 +250,19 @@ function App() {
         .to(".scrollcue", { autoAlpha: 0, ease: "none" }, 0)
         .to(".brand", { autoAlpha: 0, ease: "none" }, 0.1);
 
-      /* the letter — lines appear one by one, in the marked order */
+      /* the letter — greeting and invitation reveal together on one page */
       gsap
         .timeline({
-          scrollTrigger: {
-            trigger: ".letter",
-            start: "top top",
-            end: "+=260%",
-            scrub: 1,
-            pin: true,
-          },
-          defaults: { ease: "power2.out" },
+          scrollTrigger: { trigger: ".letter", start: "top 62%" },
+          defaults: { ease: "power3.out" },
         })
-        .from(".letter__paper", { y: 90, autoAlpha: 0, duration: 0.7 })
-        .from(
-          ".l-dear",
-          { y: 46, autoAlpha: 0, filter: "blur(8px)", duration: 0.9 },
-          "+=0.25"
-        )
+        .from(".l-dear", { y: 34, autoAlpha: 0, filter: "blur(6px)", duration: 0.55 })
         .from(
           ".l-invite",
-          { y: 46, autoAlpha: 0, filter: "blur(8px)", duration: 0.9 },
-          "+=0.45"
+          { y: 34, autoAlpha: 0, filter: "blur(6px)", duration: 0.55 },
+          "-=0.4"
         )
-        .from(".l-orn", { autoAlpha: 0, scale: 0.85, duration: 0.6 }, "+=0.3")
-        .to({}, { duration: 0.5 });
+        .from(".l-orn", { autoAlpha: 0, scale: 0.9, duration: 0.4 }, "-=0.25");
 
       /* the grand title — revealed word by word over the site drawing */
       gsap.fromTo(
@@ -286,7 +274,7 @@ function App() {
           scrollTrigger: {
             trigger: ".title-scene",
             start: "top top",
-            end: "+=230%",
+            end: "+=150%",
             scrub: 1,
           },
         }
@@ -296,21 +284,21 @@ function App() {
           scrollTrigger: {
             trigger: ".title-scene",
             start: "top top",
-            end: "+=230%",
+            end: "+=150%",
             scrub: 1,
             pin: true,
           },
         })
-        .from(".title-frame", { scale: 0.965, autoAlpha: 0, duration: 0.5 })
-        .from(".title-scene__kicker", { y: 24, autoAlpha: 0, duration: 0.4 }, "-=0.2")
+        .from(".title-frame", { scale: 0.965, autoAlpha: 0, duration: 0.4 })
+        .from(".title-scene__kicker", { y: 24, autoAlpha: 0, duration: 0.3 }, "-=0.15")
         .fromTo(
           ".grand-title .tw",
           { opacity: 0.08 },
-          { opacity: 1, stagger: 0.07, duration: 0.35, ease: "none" },
-          "+=0.1"
+          { opacity: 1, stagger: 0.035, duration: 0.2, ease: "none" },
+          "+=0.05"
         )
-        .from(".title-scene__divider", { autoAlpha: 0, y: 18, duration: 0.5 }, "+=0.15")
-        .to({}, { duration: 0.5 });
+        .from(".title-scene__divider", { autoAlpha: 0, y: 18, duration: 0.4 }, "+=0.1")
+        .to({}, { duration: 0.35 });
 
       /* details */
       gsap.from(".appreciation", {
@@ -421,7 +409,6 @@ function App() {
           <img src={dunesArt} alt="" />
         </div>
         <div className="letter__paper">
-          <p className="letter__basmalah">دعوة</p>
           <p className="l-dear">
             السيد/ <em>{guest || "………………………………"}</em> المحترم
           </p>
@@ -501,9 +488,6 @@ function App() {
           <img src={featherImg} alt="" loading="lazy" />
         </div>
         <div className="closing__content">
-          <span className="closing__mark" aria-hidden="true">
-            <FeatherDivider />
-          </span>
           <p className="closing__line">
             نتشرف بمشاركتكم، ونتطلع إلى إسهامكم القيّم في إثراء أعمال الندوة.
           </p>

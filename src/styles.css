@@ -2,6 +2,14 @@
 /*  دعوة — استدامة الحبارى | premium scroll experience                  */
 /* ------------------------------------------------------------------ */
 
+@font-face {
+  font-family: "Majalla";
+  src: url("./fonts/majalla.ttf") format("truetype");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --paper: #f3ecdf;
   --paper-2: #ece3d2;
@@ -14,8 +22,9 @@
   --gold: #b08d57;
   --gold-soft: rgba(176, 141, 87, 0.38);
   --cream: #f6efe2;
-  --font-body: "Amiri", "Times New Roman", serif;
-  --font-display: "Aref Ruqaa", "Amiri", serif;
+  --font-body: "Majalla", "Segoe UI", "Tahoma", sans-serif;
+  --font-display: "Majalla", "Segoe UI", "Tahoma", sans-serif;
+  --font-hero: "Aref Ruqaa", "Majalla", serif;
 }
 
 * {
@@ -73,7 +82,7 @@ a {
 }
 
 .veil span {
-  font-family: var(--font-display);
+  font-family: var(--font-hero);
   font-size: clamp(44px, 9vw, 92px);
   color: var(--brown);
   opacity: 0.85;
@@ -197,7 +206,7 @@ a {
 }
 
 .hero__word {
-  font-family: var(--font-display);
+  font-family: var(--font-hero);
   font-weight: 400;
   font-size: clamp(96px, 21vw, 210px);
   line-height: 1.05;
@@ -271,14 +280,14 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.85;
+  opacity: 0.4;
 }
 
 .letter__bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(236, 227, 210, 0.8), rgba(236, 227, 210, 0.35) 50%, rgba(236, 227, 210, 0.85));
+  background: linear-gradient(180deg, rgba(243, 236, 223, 0.93), rgba(243, 236, 223, 0.86) 50%, rgba(243, 236, 223, 0.95));
 }
 
 .letter__paper {
@@ -287,13 +296,6 @@ a {
   width: min(820px, 100%);
   padding: clamp(24px, 4vw, 48px) clamp(12px, 3vw, 40px);
   text-align: center;
-}
-
-.letter__basmalah {
-  font-family: var(--font-display);
-  color: var(--gold);
-  font-size: clamp(20px, 3vw, 26px);
-  margin-bottom: 1.2em;
 }
 
 .l-dear {
@@ -558,15 +560,6 @@ a {
   display: grid;
   justify-items: center;
   gap: clamp(18px, 3svh, 30px);
-}
-
-.closing__mark {
-  color: var(--gold);
-}
-
-.closing__mark svg {
-  width: clamp(130px, 24vw, 210px);
-  height: auto;
 }
 
 .closing__line {
