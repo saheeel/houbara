@@ -11,6 +11,7 @@ import externaLogo from "../externa.png";
 import heroBird from "../bird images/DSC_7328-Enhanced-NR.JPG";
 import dunesArt from "../for any slide.jpeg";
 import featherImg from "../bird images/A1_09798.JPG";
+import EditPage from "./EditPage.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -348,7 +349,7 @@ function App() {
         </div>
         <div className="letter__paper">
           <p className="l-dear">
-            السيد/ <em>{guest || "………………………………"}</em> المحترم
+            السيد <em>{guest || "………………………………"}</em> المحترم
           </p>
           <p className="l-invite">
             يسر مكتب محميات الدولة الخارجية بدعوتكم للمشاركة كأحد المتحدثين في
@@ -427,9 +428,25 @@ function App() {
           <img src={externaLogo} alt="مكتب محميات الدولة الخارجية" loading="lazy" />
         </div>
         <small>الندوة العلمية الفنية الوطنية — على هامش معرض سهيل 2026 — كتارا</small>
+        <a href="/edit" style={{ color: "var(--gold)", fontSize: "14px", textDecoration: "none", opacity: 0.85 }}>
+          ⚙️ لوحة تخصيص وتوليد روابط الدعوات
+        </a>
       </footer>
     </div>
   );
 }
 
-createRoot(document.getElementById("root")).render(<App />);
+function Main() {
+  const pathname = window.location.pathname;
+  const search = window.location.search;
+  const hash = window.location.hash;
+  const isEdit =
+    pathname === "/edit" ||
+    pathname.endsWith("/edit") ||
+    search.includes("edit=true") ||
+    hash === "#edit";
+
+  return isEdit ? <EditPage /> : <App />;
+}
+
+createRoot(document.getElementById("root")).render(<Main />);
