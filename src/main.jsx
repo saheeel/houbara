@@ -10,7 +10,6 @@ import ministryLogo from "../MNSTRY of ENV.png";
 import externaLogo from "../externa.png";
 import heroBird from "../bird images/DSC_7328-Enhanced-NR.JPG";
 import dunesArt from "../for any slide.jpeg";
-import boothSketch from "../for2nd slide.jpeg";
 import featherImg from "../bird images/A1_09798.JPG";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -250,55 +249,25 @@ function App() {
         .to(".scrollcue", { autoAlpha: 0, ease: "none" }, 0)
         .to(".brand", { autoAlpha: 0, ease: "none" }, 0.1);
 
-      /* the letter — greeting and invitation reveal together on one page */
+      /* the letter — greeting, invitation and title all reveal on one page */
       gsap
         .timeline({
-          scrollTrigger: { trigger: ".letter", start: "top 62%" },
+          scrollTrigger: { trigger: ".letter", start: "top 60%" },
           defaults: { ease: "power3.out" },
         })
-        .from(".l-dear", { y: 34, autoAlpha: 0, filter: "blur(6px)", duration: 0.55 })
+        .from(".l-dear", { y: 34, autoAlpha: 0, filter: "blur(6px)", duration: 0.5 })
         .from(
           ".l-invite",
-          { y: 34, autoAlpha: 0, filter: "blur(6px)", duration: 0.55 },
-          "-=0.4"
+          { y: 34, autoAlpha: 0, filter: "blur(6px)", duration: 0.5 },
+          "-=0.35"
         )
-        .from(".l-orn", { autoAlpha: 0, scale: 0.9, duration: 0.4 }, "-=0.25");
-
-      /* the grand title — revealed word by word over the site drawing */
-      gsap.fromTo(
-        ".title-scene__bg img",
-        { scale: 1.14 },
-        {
-          scale: 1.02,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".title-scene",
-            start: "top top",
-            end: "+=150%",
-            scrub: 1,
-          },
-        }
-      );
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: ".title-scene",
-            start: "top top",
-            end: "+=150%",
-            scrub: 1,
-            pin: true,
-          },
-        })
-        .from(".title-frame", { scale: 0.965, autoAlpha: 0, duration: 0.4 })
-        .from(".title-scene__kicker", { y: 24, autoAlpha: 0, duration: 0.3 }, "-=0.15")
         .fromTo(
-          ".grand-title .tw",
-          { opacity: 0.08 },
-          { opacity: 1, stagger: 0.035, duration: 0.2, ease: "none" },
-          "+=0.05"
+          ".l-title .tw",
+          { opacity: 0.12 },
+          { opacity: 1, stagger: 0.03, duration: 0.18, ease: "none" },
+          "-=0.15"
         )
-        .from(".title-scene__divider", { autoAlpha: 0, y: 18, duration: 0.4 }, "+=0.1")
-        .to({}, { duration: 0.35 });
+        .from(".l-orn", { autoAlpha: 0, scale: 0.9, duration: 0.4 }, "-=0.1");
 
       /* details */
       gsap.from(".appreciation", {
@@ -403,7 +372,7 @@ function App() {
         </div>
       </section>
 
-      {/* ٢ — الرسالة */}
+      {/* ٢ — الرسالة والعنوان معًا */}
       <section className="letter" id="message">
         <div className="letter__bg" aria-hidden="true">
           <img src={dunesArt} alt="" />
@@ -416,34 +385,20 @@ function App() {
             يسر مكتب محميات الدولة الخارجية بدعوتكم للمشاركة كأحد المتحدثين في
             الندوة العلمية الفنية الوطنية بعنوان:
           </p>
+          <h1 className="l-title">
+            {GRAND_TITLE.split(" ").map((word, index) => (
+              <span className="tw" key={index}>
+                {word}
+              </span>
+            ))}
+          </h1>
           <div className="l-orn" aria-hidden="true">
             <FeatherDivider />
           </div>
         </div>
       </section>
 
-      {/* ٣ — العنوان */}
-      <section className="title-scene">
-        <div className="title-scene__bg" aria-hidden="true">
-          <img src={boothSketch} alt="" />
-        </div>
-        <div className="title-frame" aria-hidden="true" />
-        <div className="title-scene__inner">
-          <p className="title-scene__kicker">الندوة العلمية الفنية الوطنية</p>
-          <h2 className="grand-title">
-            {GRAND_TITLE.split(" ").map((word, index) => (
-              <span className="tw" key={index}>
-                {word}
-              </span>
-            ))}
-          </h2>
-          <span className="title-scene__divider" aria-hidden="true">
-            <FeatherDivider />
-          </span>
-        </div>
-      </section>
-
-      {/* ٤ — التقدير والتفاصيل */}
+      {/* ٣ — التقدير والتفاصيل */}
       <section className="details" id="details">
         <p className="appreciation">
           تقديرًا لخبراتكم وإسهاماتكم، وتطلعًا إلى مشاركتكم في إثراء محاور
