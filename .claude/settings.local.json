@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/)",
+      "Bash(lsof -ti:5173)",
+      "Bash(ps -p 80456 -o pid,command)",
+      "Bash(nohup npm run dev)"
+    ]
+  }
+}
