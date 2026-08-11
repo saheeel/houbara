@@ -152,8 +152,15 @@ function Rsvp() {
 
 function App() {
   const rootRef = useRef(null);
-  const guest =
-    new URLSearchParams(window.location.search).get("to")?.trim() || "";
+  const rawParam = new URLSearchParams(window.location.search).get("to")?.trim() || "";
+  let guest = "";
+  if (rawParam) {
+    try {
+      guest = decodeURIComponent(rawParam).replace(/_/g, " ");
+    } catch (e) {
+      guest = rawParam.replace(/_/g, " ");
+    }
+  }
 
   useLayoutEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -32,9 +32,10 @@ export default function EditPage() {
   const [isCopied, setIsCopied] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
-  const baseUrl = window.location.origin + window.location.pathname.replace(/\/edit\/?$/, "");
+  const baseUrl = window.location.origin + window.location.pathname.replace(/\/edit(?:\.html)?\/?$/, "");
   const cleanName = guestName.trim();
-  const guestUrl = `${baseUrl}?to=${encodeURIComponent(cleanName)}`;
+  const slug = cleanName.replace(/\s+/g, "_");
+  const guestUrl = `${baseUrl}?to=${slug}`;
 
   const showToast = (msg) => {
     setToastMessage(msg);
