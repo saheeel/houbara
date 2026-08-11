@@ -204,8 +204,7 @@ function App() {
       /* entrance — plays once the fonts are ready */
       const entrance = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
       entrance
-        .to(".veil", { autoAlpha: 0, duration: 0.9, ease: "power2.inOut" })
-        .from(".brand img", { y: -18, autoAlpha: 0, duration: 0.7, stagger: 0.14 }, "-=0.45")
+        .from(".brand img", { y: -18, autoAlpha: 0, duration: 0.7, stagger: 0.14 })
         .from(".hero__kicker", { y: 22, autoAlpha: 0, duration: 0.6 }, "-=0.4")
         .from(
           ".hero__word",
@@ -342,9 +341,6 @@ function App() {
 
   return (
     <div ref={rootRef}>
-      <div className="veil" aria-hidden="true">
-        <span>دعوة</span>
-      </div>
       <div className="progress" aria-hidden="true">
         <span />
       </div>

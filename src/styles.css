@@ -72,22 +72,6 @@ a {
 
 /* ---------- fixed layers ---------- */
 
-.veil {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  background: var(--paper);
-  display: grid;
-  place-items: center;
-}
-
-.veil span {
-  font-family: var(--font-hero);
-  font-size: clamp(44px, 9vw, 92px);
-  color: var(--brown);
-  opacity: 0.85;
-}
-
 .progress {
   position: fixed;
   top: 0;
@@ -280,14 +264,14 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.4;
+  opacity: 0.25;
 }
 
 .letter__bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(243, 236, 223, 0.93), rgba(243, 236, 223, 0.86) 50%, rgba(243, 236, 223, 0.95));
+  background: linear-gradient(180deg, rgba(243, 236, 223, 0.12), rgba(243, 236, 223, 0.04) 50%, rgba(243, 236, 223, 0.16));
 }
 
 .letter__paper {
