@@ -147,7 +147,7 @@ function SplashScreen() {
 
   return (
     <div className="splash-screen" ref={splashRef}>
-      <img src="/assets/shaillogo.png" alt="S'hail 2026" className="splash-logo" />
+      <img src={externaLogo} alt="مكتب محميات الدولة الخارجية" className="splash-logo" />
     </div>
   );
 }
@@ -233,9 +233,8 @@ function App() {
       });
 
       /* hero — scrolling video timelapse */
-      const startFrame = 25;
-      const frameCount = 59 - startFrame;
-      const currentFrame = index => `/assets/0002/frame-${(index + startFrame).toString().padStart(6, '0')}.jpg`;
+      const frameCount = 61; // Frames 18 to 78
+      const currentFrame = index => `/assets/0001/frame-${(index + 18).toString().padStart(6, '0')}.jpg`;
       
       const canvas = document.getElementById("hero-canvas");
       let context = null;

@@ -597,6 +597,13 @@ a {
 }
 
 @media (max-width: 600px) {
+  .hero__bg img,
+  .hero__bg canvas {
+    object-fit: cover;
+    object-position: 42% 38%;
+    transform: scale(0.95);
+  }
+
   .l-dear {
     font-size: 26px;
   }
@@ -1164,8 +1171,9 @@ a {
 }
 
 .splash-logo {
-  width: 170px;
-  max-width: 60%;
+  width: clamp(240px, 60vw, 360px);
+  max-width: 80%;
+  height: auto;
   opacity: 0;
   transform: scale(0.9);
 }
