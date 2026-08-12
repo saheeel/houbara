@@ -244,32 +244,43 @@ function App() {
 
         images[0].onload = renderFrame;
 
-        /* hero — pinned scrolling video */
-        gsap.set(".hero__bg", { scale: 1.12 });
-        
-        let heroTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: ".hero",
-            start: "top top",
-            end: "+=350%", // Gives plenty of scroll room to make the 127 frames feel buttery smooth
-            scrub: 0.1, // Very low scrub for almost instant, smooth responsiveness
-            pin: true,
-          },
+        /* hero — autoplay video intro */
+        if (lenis) lenis.stop(); // Lock scroll while video plays
+
+        const introTl = gsap.timeline({
+          onComplete: () => {
+            if (lenis) lenis.start(); // Unlock scroll when finished
+          }
         });
 
-        heroTl
-          .to(".hero__bg", { scale: 1, yPercent: 5, ease: "none", duration: 1 }, 0)
-          .to(imageSeq, {
-            frame: frameCount - 1,
-            ease: "none",
-            duration: 1,
-            onUpdate: () => {
-              imageSeq.frame = Math.floor(imageSeq.frame);
-              renderFrame();
-            }
-          }, 0)
-          .to(".hero__content", { yPercent: -40, autoAlpha: 0, ease: "power2.out", duration: 0.15 }, 0.85)
-          .to([".scrollcue", ".brand", ".hero__tint", "#hero-canvas"], { autoAlpha: 0, ease: "power2.out", duration: 0.15 }, 0.85); // Fade everything out at the end of the pin
+        introTl.to(imageSeq, {
+          frame: frameCount - 1,
+          duration: 4.2, // ~30 fps for 127 frames
+          ease: "none",
+          onUpdate: () => {
+            imageSeq.frame = Math.floor(imageSeq.frame);
+            renderFrame();
+          }
+        })
+        .to("#hero-canvas", { autoAlpha: 0, duration: 1, ease: "power2.inOut" }, "-=1") // Fade out canvas seamlessly
+        .to(".hero__content", { bottom: "50%", yPercent: 50, duration: 1.5, ease: "power3.out" }, "-=1"); // Bring text to center
+
+        /* hero — slow drift out while leaving */
+        gsap.set(".hero__bg", { scale: 1 });
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: ".hero",
+              start: "top top",
+              end: "bottom top",
+              scrub: 1,
+            },
+          })
+          .to(".hero__bg", { yPercent: 10, ease: "none" }, 0)
+          .to("#hero-canvas", { autoAlpha: 0, ease: "none" }, 0)
+          .to(".hero__content", { yPercent: -40, autoAlpha: 0, ease: "none" }, 0)
+          .to(".scrollcue", { autoAlpha: 0, ease: "none" }, 0)
+          .to(".brand", { autoAlpha: 0, ease: "none" }, 0.1);
       }
 
       /* the letter — greeting, invitation and title all reveal on one page */
