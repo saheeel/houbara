@@ -8,7 +8,7 @@ import "./styles.css";
 
 import ministryLogo from "../MNSTRY of ENV.png";
 import externaLogo from "../externa.png";
-import heroBird from "../bird images/DSC_7328-Enhanced-NR.JPG";
+
 import dunesArt from "../for any slide.jpeg";
 import featherImg from "../bird images/A1_09798.JPG";
 import EditPage from "./EditPage.jsx";
@@ -213,21 +213,64 @@ function App() {
         scrollTrigger: { start: 0, end: "max", scrub: 0.4 },
       });
 
-      /* hero — slow drift out while leaving */
-      gsap.set(".hero__bg", { scale: 1.12 });
-      gsap
-        .timeline({
+      /* hero — scrolling video timelapse */
+      const frameCount = 127;
+      const currentFrame = index => `/assets/0001/frame-${(index + 18).toString().padStart(6, '0')}.jpg`;
+      
+      const canvas = document.getElementById("hero-canvas");
+      let context = null;
+      if (canvas) context = canvas.getContext("2d");
+
+      const images = [];
+      const imageSeq = { frame: 0 };
+      
+      if (canvas) {
+        for (let i = 0; i < frameCount; i++) {
+          const img = new Image();
+          img.src = currentFrame(i);
+          images.push(img);
+        }
+
+        const renderFrame = () => {
+          if(images[imageSeq.frame] && images[imageSeq.frame].complete && images[imageSeq.frame].naturalHeight !== 0) {
+             if (canvas.width !== images[0].width || canvas.height !== images[0].height) {
+                canvas.width = images[0].width;
+                canvas.height = images[0].height;
+             }
+             context.clearRect(0, 0, canvas.width, canvas.height);
+             context.drawImage(images[imageSeq.frame], 0, 0);
+          }
+        };
+
+        images[0].onload = renderFrame;
+
+        /* hero — pinned scrolling video */
+        gsap.set(".hero__bg", { scale: 1.12 });
+        
+        let heroTl = gsap.timeline({
           scrollTrigger: {
             trigger: ".hero",
             start: "top top",
-            end: "bottom top",
-            scrub: 1,
+            end: "+=350%", // Gives plenty of scroll room to make the 127 frames feel buttery smooth
+            scrub: 0.1, // Very low scrub for almost instant, smooth responsiveness
+            pin: true,
           },
-        })
-        .to(".hero__bg", { scale: 1, yPercent: 10, ease: "none" }, 0)
-        .to(".hero__content", { yPercent: -40, autoAlpha: 0, ease: "none" }, 0)
-        .to(".scrollcue", { autoAlpha: 0, ease: "none" }, 0)
-        .to(".brand", { autoAlpha: 0, ease: "none" }, 0.1);
+        });
+
+        heroTl
+          .to(".hero__bg", { scale: 1, yPercent: 5, ease: "none", duration: 1 }, 0)
+          .to(imageSeq, {
+            frame: frameCount - 1,
+            ease: "none",
+            duration: 1,
+            onUpdate: () => {
+              imageSeq.frame = Math.floor(imageSeq.frame);
+              renderFrame();
+            }
+          }, 0)
+          .to(".hero__content", { yPercent: -40, autoAlpha: 0, ease: "power2.out", duration: 0.15 }, 0.85)
+          .to([".scrollcue", ".brand", ".hero__tint", "#hero-canvas"], { autoAlpha: 0, ease: "power2.out", duration: 0.15 }, 0.85); // Fade everything out at the end of the pin
+      }
 
       /* the letter — greeting, invitation and title all reveal on one page */
       gsap
@@ -331,7 +374,7 @@ function App() {
       {/* ١ — الافتتاح */}
       <section className="hero" id="invitation">
         <div className="hero__bg" aria-hidden="true">
-          <img src={heroBird} alt="" fetchPriority="high" />
+          <canvas id="hero-canvas" />
         </div>
         <div className="hero__tint" aria-hidden="true" />
         <header className="brand" aria-label="شعارات الجهات المنظمة">
@@ -356,7 +399,7 @@ function App() {
         </div>
         <div className="letter__paper">
           <p className="l-dear">
-            السيد <em>{guest || "………………………………"}</em> المحترم
+            السيد / <em>{guest || "………………………………"}</em> المحترم
           </p>
           <p className="l-invite">
             يسر مكتب محميات الدولة الخارجية بدعوتكم للمشاركة كأحد المتحدثين في

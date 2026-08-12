@@ -106,7 +106,7 @@ export default function EditPage() {
                 <div className="paper-body">
                   {/* Greeting Line with Seamless Inline Input */}
                   <div className="paper-greeting">
-                    <span className="sayyid-label">السيد</span>
+                    <span className="sayyid-label">السيد /</span>
                     <div className="input-wrapper">
                       <input
                         type="text"
