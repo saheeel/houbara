@@ -138,9 +138,9 @@ function SplashScreen() {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
-      tl.to(".splash-logo", { autoAlpha: 1, scale: 1, duration: 1.2, ease: "power3.out", delay: 0.3 })
-        .to(".splash-logo", { autoAlpha: 0, scale: 0.95, duration: 0.6, ease: "power2.inOut", delay: 1.2 })
-        .to(splashRef.current, { autoAlpha: 0, duration: 0.8, ease: "power2.inOut" }, "-=0.2");
+      tl.to(".splash-logo", { autoAlpha: 1, scale: 1, duration: 0.8, ease: "power3.out", delay: 0.15 })
+        .to(".splash-logo", { autoAlpha: 0, scale: 0.95, duration: 0.5, ease: "power2.inOut", delay: 0.6 })
+        .to(splashRef.current, { autoAlpha: 0, duration: 0.6, ease: "power2.inOut" }, "-=0.2");
     }, splashRef);
     return () => ctx.revert();
   }, []);
@@ -435,7 +435,7 @@ function App() {
               </span>
             ))}
           </h1>
-          <p className="appreciation" style={{ textAlign: "center", marginTop: "8rem" }}>
+          <p className="appreciation" style={{ textAlign: "center", marginTop: "8rem", marginBottom: "2rem" }}>
             تقديرًا لخبراتكم وإسهاماتكم، وتطلعًا إلى مشاركتكم في إثراء محاور
             الندوة وتبادل الخبرات والمعارف.
           </p>
