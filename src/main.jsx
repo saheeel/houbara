@@ -233,8 +233,9 @@ function App() {
       });
 
       /* hero — scrolling video timelapse */
-      const frameCount = 61; // Frames 18 to 78
-      const currentFrame = index => `/assets/0001/frame-${(index + 18).toString().padStart(6, '0')}.jpg`;
+      const startFrame = 25;
+      const frameCount = 59 - startFrame;
+      const currentFrame = index => `/assets/0002/frame-${(index + startFrame).toString().padStart(6, '0')}.jpg`;
       
       const canvas = document.getElementById("hero-canvas");
       let context = null;
@@ -294,7 +295,11 @@ function App() {
       /* the letter — greeting, invitation and title all reveal on one page */
       gsap
         .timeline({
-          scrollTrigger: { trigger: ".letter", start: "top 60%" },
+          scrollTrigger: {
+            trigger: ".letter",
+            start: "top 60%",
+            toggleActions: "play reverse play reverse",
+          },
           defaults: { ease: "power3.out" },
         })
         .from(".l-dear", { y: 34, autoAlpha: 0, filter: "blur(6px)", duration: 0.5 })
@@ -318,7 +323,11 @@ function App() {
         filter: "blur(6px)",
         duration: 1.1,
         ease: "power3.out",
-        scrollTrigger: { trigger: ".appreciation", start: "top 78%" },
+        scrollTrigger: {
+          trigger: ".appreciation",
+          start: "top 78%",
+          toggleActions: "play reverse play reverse",
+        },
       });
       gsap.from(".card", {
         y: 60,
@@ -326,7 +335,11 @@ function App() {
         duration: 0.9,
         stagger: 0.16,
         ease: "power3.out",
-        scrollTrigger: { trigger: ".cards", start: "top 80%" },
+        scrollTrigger: {
+          trigger: ".cards",
+          start: "top 80%",
+          toggleActions: "play reverse play reverse",
+        },
       });
 
       /* closing */
@@ -352,7 +365,11 @@ function App() {
         duration: 1.1,
         stagger: 0.2,
         ease: "power3.out",
-        scrollTrigger: { trigger: ".closing", start: "top 55%" },
+        scrollTrigger: {
+          trigger: ".closing",
+          start: "top 55%",
+          toggleActions: "play reverse play reverse",
+        },
       });
 
       /* rsvp + footer */
@@ -361,7 +378,11 @@ function App() {
         autoAlpha: 0,
         duration: 1,
         ease: "power3.out",
-        scrollTrigger: { trigger: ".rsvp", start: "top 78%" },
+        scrollTrigger: {
+          trigger: ".rsvp",
+          start: "top 78%",
+          toggleActions: "play reverse play reverse",
+        },
       });
       gsap.from(".footer > *", {
         y: 30,
@@ -369,7 +390,11 @@ function App() {
         duration: 0.8,
         stagger: 0.12,
         ease: "power3.out",
-        scrollTrigger: { trigger: ".footer", start: "top 92%" },
+        scrollTrigger: {
+          trigger: ".footer",
+          start: "top 92%",
+          toggleActions: "play reverse play reverse",
+        },
       });
     }, rootRef);
 
