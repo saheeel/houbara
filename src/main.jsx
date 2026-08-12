@@ -133,6 +133,25 @@ function ThreeAtmosphere() {
   return <div className="three-atmosphere" ref={mountRef} aria-hidden="true" />;
 }
 
+function SplashScreen() {
+  const splashRef = useRef(null);
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline();
+      tl.to(".splash-logo", { autoAlpha: 1, scale: 1, duration: 1.2, ease: "power3.out", delay: 0.3 })
+        .to(".splash-logo", { autoAlpha: 0, scale: 0.95, duration: 0.6, ease: "power2.inOut", delay: 1.2 })
+        .to(splashRef.current, { autoAlpha: 0, duration: 0.8, ease: "power2.inOut" }, "-=0.2");
+    }, splashRef);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div className="splash-screen" ref={splashRef}>
+      <img src="/assets/shaillogo.png" alt="S'hail 2026" className="splash-logo" />
+    </div>
+  );
+}
+
 function Rsvp() {
   return (
     <section className="rsvp" id="rsvp">
@@ -186,7 +205,7 @@ function App() {
       const entrance = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
       entrance
         .from(".brand img", { y: -18, autoAlpha: 0, duration: 0.7, stagger: 0.14 })
-        .from(".hero__kicker", { y: 22, autoAlpha: 0, duration: 0.6 }, "-=0.4")
+        .from(".hero__kicker-wrapper", { y: 22, autoAlpha: 0, duration: 0.6 }, "-=0.4")
         .from(
           ".hero__word",
           { scale: 1.08, autoAlpha: 0, filter: "blur(16px)", duration: 1.15 },
@@ -214,7 +233,7 @@ function App() {
       });
 
       /* hero — scrolling video timelapse */
-      const frameCount = 127;
+      const frameCount = 61; // Frames 18 to 78
       const currentFrame = index => `/assets/0001/frame-${(index + 18).toString().padStart(6, '0')}.jpg`;
       
       const canvas = document.getElementById("hero-canvas");
@@ -244,43 +263,32 @@ function App() {
 
         images[0].onload = renderFrame;
 
-        /* hero — autoplay video intro */
-        if (lenis) lenis.stop(); // Lock scroll while video plays
-
-        const introTl = gsap.timeline({
-          onComplete: () => {
-            if (lenis) lenis.start(); // Unlock scroll when finished
-          }
+        /* hero — slow drift out while leaving */
+        gsap.set(".hero__bg", { scale: 1.12 });
+        
+        let heroTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".hero",
+            start: "top top",
+            end: "bottom top", // Natural 100vh scroll, no pinning
+            scrub: 1, // Smooth scrub for the drift
+          },
         });
 
-        introTl.to(imageSeq, {
-          frame: frameCount - 1,
-          duration: 4.2, // ~30 fps for 127 frames
-          ease: "none",
-          onUpdate: () => {
-            imageSeq.frame = Math.floor(imageSeq.frame);
-            renderFrame();
-          }
-        })
-        .to("#hero-canvas", { autoAlpha: 0, duration: 1, ease: "power2.inOut" }, "-=1") // Fade out canvas seamlessly
-        .to(".hero__content", { bottom: "50%", yPercent: 50, duration: 1.5, ease: "power3.out" }, "-=1"); // Bring text to center
-
-        /* hero — slow drift out while leaving */
-        gsap.set(".hero__bg", { scale: 1 });
-        gsap
-          .timeline({
-            scrollTrigger: {
-              trigger: ".hero",
-              start: "top top",
-              end: "bottom top",
-              scrub: 1,
-            },
-          })
-          .to(".hero__bg", { yPercent: 10, ease: "none" }, 0)
-          .to("#hero-canvas", { autoAlpha: 0, ease: "none" }, 0)
+        heroTl
+          .to(".hero__bg", { scale: 1, yPercent: 10, ease: "none" }, 0)
+          .to(imageSeq, {
+            frame: frameCount - 1,
+            ease: "none",
+            onUpdate: () => {
+              imageSeq.frame = Math.floor(imageSeq.frame);
+              renderFrame();
+            }
+          }, 0)
           .to(".hero__content", { yPercent: -40, autoAlpha: 0, ease: "none" }, 0)
           .to(".scrollcue", { autoAlpha: 0, ease: "none" }, 0)
-          .to(".brand", { autoAlpha: 0, ease: "none" }, 0.1);
+          .to(".brand", { autoAlpha: 0, ease: "none" }, 0.1)
+          .to("#hero-canvas", { autoAlpha: 0, ease: "none" }, 0); 
       }
 
       /* the letter — greeting, invitation and title all reveal on one page */
@@ -376,6 +384,7 @@ function App() {
 
   return (
     <div ref={rootRef}>
+      <SplashScreen />
       <div className="progress" aria-hidden="true">
         <span />
       </div>
@@ -393,9 +402,12 @@ function App() {
           <img src={externaLogo} alt="مكتب محميات الدولة الخارجية" />
         </header>
         <div className="hero__content">
-          <p className="hero__kicker">معرض سهيل 2026</p>
-          <h1 className="hero__word">دعوة</h1>
-          <p className="hero__sub">الندوة العلمية الفنية الوطنية</p>
+          <div className="hero__kicker-wrapper" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
+            <span style={{ fontSize: "1.15em", color: "var(--ink-soft)" }}>سهيل</span>
+            <p className="hero__kicker" style={{ margin: 0 }}>معرض كتارا الدولي للصيد والصقور</p>
+          </div>
+          <h1 className="hero__word">الندوة</h1>
+          <p className="hero__sub">العلمية الفنية الوطنية</p>
         </div>
         <div className="scrollcue" aria-hidden="true">
           <span>اسحب للأعلى للمتابعة</span>
@@ -423,18 +435,15 @@ function App() {
               </span>
             ))}
           </h1>
-          <div className="l-orn" aria-hidden="true">
-            <FeatherDivider />
-          </div>
+          <p className="appreciation" style={{ textAlign: "center", marginTop: "8rem" }}>
+            تقديرًا لخبراتكم وإسهاماتكم، وتطلعًا إلى مشاركتكم في إثراء محاور
+            الندوة وتبادل الخبرات والمعارف.
+          </p>
         </div>
       </section>
 
-      {/* ٣ — التقدير والتفاصيل */}
+      {/* ٣ — التفاصيل */}
       <section className="details" id="details">
-        <p className="appreciation">
-          تقديرًا لخبراتكم وإسهاماتكم، وتطلعًا إلى مشاركتكم في إثراء محاور
-          الندوة وتبادل الخبرات والمعارف.
-        </p>
         <div className="cards">
           <article className="card">
             <span>التاريخ</span>
@@ -477,7 +486,6 @@ function App() {
           <p className="closing__line">
             نتشرف بمشاركتكم، ونتطلع إلى إسهامكم القيّم في إثراء أعمال الندوة.
           </p>
-          <p className="closing__sig">مكتب محميات الدولة الخارجية</p>
         </div>
       </section>
 
@@ -489,9 +497,6 @@ function App() {
           <img src={externaLogo} alt="مكتب محميات الدولة الخارجية" loading="lazy" />
         </div>
         <small>الندوة العلمية الفنية الوطنية — على هامش معرض سهيل 2026 — كتارا</small>
-        <a href="/edit" style={{ color: "var(--gold)", fontSize: "14px", textDecoration: "none", opacity: 0.85 }}>
-          ⚙️ لوحة تخصيص وتوليد روابط الدعوات
-        </a>
       </footer>
     </div>
   );

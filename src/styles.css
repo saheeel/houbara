@@ -401,13 +401,13 @@ a {
   gap: 9px;
   font-family: var(--font-body);
   font-size: clamp(15px, 1.9vw, 17px);
-  color: var(--cream);
+  color: var(--brown-night);
   text-decoration: none;
-  background: var(--brown);
-  border: 1px solid var(--brown);
+  background: var(--cream);
+  border: 1px solid var(--cream);
   padding: 11px 22px;
   border-radius: 999px;
-  box-shadow: 0 12px 26px rgba(62, 41, 30, 0.2);
+  box-shadow: 0 12px 26px rgba(62, 41, 30, 0.1);
   transition: background 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
 }
 
@@ -419,13 +419,13 @@ a {
 }
 
 .map-btn:hover {
-  background: var(--brown-deep);
+  background: var(--paper);
   transform: translateY(-3px);
-  box-shadow: 0 18px 38px rgba(62, 41, 30, 0.3);
+  box-shadow: 0 18px 38px rgba(62, 41, 30, 0.2);
 }
 
 .map-btn:hover svg {
-  color: var(--cream);
+  color: var(--brown-night);
 }
 
 /* ---------- closing ---------- */
@@ -1126,4 +1126,22 @@ a {
   }
 }
 
+/* ---------- Splash Screen ---------- */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: var(--brown-night);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.splash-logo {
+  width: 280px;
+  max-width: 80%;
+  /* Filter to tint the image to --cream (#f6efe2) */
+  filter: brightness(0) invert(94%) sepia(8%) saturate(546%) hue-rotate(334deg) brightness(101%) contrast(93%);
+  opacity: 0;
+  transform: scale(0.9);
+}
