@@ -395,6 +395,12 @@ a {
   line-height: 1.8;
 }
 
+.map-btn,
+.map-btn span {
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
 .map-btn {
   margin: 8px auto 0;
   display: inline-flex;
@@ -402,7 +408,6 @@ a {
   gap: 9px;
   font-family: var(--font-body);
   font-size: clamp(15px, 1.9vw, 17px);
-  color: var(--cream);
   text-decoration: none;
   background: var(--brown);
   border: 1px solid var(--brown);
@@ -416,7 +421,7 @@ a {
   width: 18px;
   height: 18px;
   flex: 0 0 auto;
-  color: var(--gold);
+  color: #f4e6d0;
 }
 
 .map-btn:hover {
@@ -426,7 +431,7 @@ a {
 }
 
 .map-btn:hover svg {
-  color: var(--cream);
+  color: #ffffff;
 }
 
 /* ---------- closing ---------- */
