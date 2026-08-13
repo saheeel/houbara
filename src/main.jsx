@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import * as THREE from "three";
 import gsap from "gsap";
@@ -133,6 +133,69 @@ function ThreeAtmosphere() {
   return <div className="three-atmosphere" ref={mountRef} aria-hidden="true" />;
 }
 
+function FeatherVideo() {
+  const video1Ref = useRef(null);
+  const video2Ref = useRef(null);
+  const [activeVideo, setActiveVideo] = useState(1);
+
+  const handleTimeUpdate = (videoNum) => {
+    const activeRef = videoNum === 1 ? video1Ref : video2Ref;
+    const nextRef = videoNum === 1 ? video2Ref : video1Ref;
+    const video = activeRef.current;
+    
+    if (!video || !video.duration) return;
+    const timeLeft = video.duration - video.currentTime;
+    
+    if (timeLeft <= 0.8 && activeVideo === videoNum) {
+      if (nextRef.current) {
+        nextRef.current.currentTime = 0;
+        nextRef.current.play().catch(() => {});
+      }
+      setActiveVideo(videoNum === 1 ? 2 : 1);
+    }
+  };
+
+  return (
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+      <video
+        ref={video1Ref}
+        src="/assets/feathervideo.mp4"
+        autoPlay
+        muted
+        playsInline
+        onTimeUpdate={() => handleTimeUpdate(1)}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition: "center 40%",
+          opacity: activeVideo === 1 ? 1 : 0,
+          transition: "opacity 0.8s ease-in-out",
+        }}
+      />
+      <video
+        ref={video2Ref}
+        src="/assets/feathervideo.mp4"
+        muted
+        playsInline
+        onTimeUpdate={() => handleTimeUpdate(2)}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition: "center 40%",
+          opacity: activeVideo === 2 ? 1 : 0,
+          transition: "opacity 0.8s ease-in-out",
+        }}
+      />
+    </div>
+  );
+}
+
 function SplashScreen() {
   const splashRef = useRef(null);
   useLayoutEffect(() => {
@@ -233,8 +296,8 @@ function App() {
       });
 
       /* hero — scrolling video timelapse */
-      const frameCount = 61; // Frames 18 to 78
-      const currentFrame = index => `/assets/0001/frame-${(index + 18).toString().padStart(6, '0')}.jpg`;
+      const frameCount = 145; // Frames 0 to 144
+      const currentFrame = index => `/assets/0003/000/frame-${index.toString().padStart(6, '0')}.jpg`;
       
       const canvas = document.getElementById("hero-canvas");
       let context = null;
@@ -442,7 +505,10 @@ function App() {
       {/* ٢ — الرسالة والعنوان معًا */}
       <section className="letter" id="message">
         <div className="letter__bg" aria-hidden="true">
-          <img src={dunesArt} alt="" />
+          <picture>
+            <source media="(max-width: 600px)" srcSet="/assets/for-mobile.png" />
+            <img src={dunesArt} alt="" />
+          </picture>
         </div>
         <div className="letter__paper">
           <p className="l-dear">
@@ -460,8 +526,7 @@ function App() {
             ))}
           </h1>
           <p className="appreciation" style={{ textAlign: "center", marginTop: "8rem", marginBottom: "2rem" }}>
-            تقديرًا لخبراتكم وإسهاماتكم، وتطلعًا إلى مشاركتكم في إثراء محاور
-            الندوة وتبادل الخبرات والمعارف.
+            تقديراً لخبراتكم وجهودكم المتميزة، وتطلعاً إلى مشاركتكم في إثراء محاور الندوة وتبادل الخبرات والمعارف
           </p>
         </div>
       </section>
@@ -504,7 +569,7 @@ function App() {
       {/* ٥ — الختام */}
       <section className="closing">
         <div className="closing__bg" aria-hidden="true">
-          <img src={featherImg} alt="" loading="lazy" />
+          <FeatherVideo />
         </div>
         <div className="closing__content">
           <p className="closing__line">
