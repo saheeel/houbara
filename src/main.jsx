@@ -176,6 +176,8 @@ function FeatherVideo() {
         autoPlay
         muted
         playsInline
+        disablePictureInPicture
+        controls={false}
         onTimeUpdate={() => handleTimeUpdate(1)}
         style={{
           position: "absolute",
@@ -189,6 +191,7 @@ function FeatherVideo() {
           transition: "opacity 0.8s ease-in-out",
           backgroundColor: "#1c110a",
           WebkitBackfaceVisibility: "hidden",
+          pointerEvents: "none",
         }}
       />
       <video
@@ -197,6 +200,8 @@ function FeatherVideo() {
         autoPlay
         muted
         playsInline
+        disablePictureInPicture
+        controls={false}
         onTimeUpdate={() => handleTimeUpdate(2)}
         style={{
           position: "absolute",
@@ -210,6 +215,7 @@ function FeatherVideo() {
           transition: "opacity 0.8s ease-in-out",
           backgroundColor: "#1c110a",
           WebkitBackfaceVisibility: "hidden",
+          pointerEvents: "none",
         }}
       />
     </div>

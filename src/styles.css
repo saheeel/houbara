@@ -472,6 +472,18 @@ a {
   backface-visibility: hidden;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
+  pointer-events: none !important;
+}
+
+video::-webkit-media-controls,
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-panel,
+video::-webkit-media-controls-container {
+  display: none !important;
+  -webkit-appearance: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .closing__bg::after {
