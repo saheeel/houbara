@@ -137,6 +137,7 @@ function FeatherVideo() {
   const video1Ref = useRef(null);
   const video2Ref = useRef(null);
   const [activeVideo, setActiveVideo] = useState(1);
+  const [isLowPowerMode, setIsLowPowerMode] = useState(false);
 
   useEffect(() => {
     [video1Ref.current, video2Ref.current].forEach((vid) => {
@@ -146,6 +147,15 @@ function FeatherVideo() {
         vid.setAttribute("webkit-playsinline", "");
       }
     });
+
+    if (video1Ref.current) {
+      const p = video1Ref.current.play();
+      if (p !== undefined) {
+        p.catch(() => {
+          setIsLowPowerMode(true);
+        });
+      }
+    }
   }, []);
 
   const handleTimeUpdate = (videoNum) => {
@@ -161,12 +171,29 @@ function FeatherVideo() {
         nextRef.current.currentTime = 0;
         const playPromise = nextRef.current.play();
         if (playPromise !== undefined) {
-          playPromise.catch(() => {});
+          playPromise.catch(() => {
+            setIsLowPowerMode(true);
+          });
         }
       }
       setActiveVideo(videoNum === 1 ? 2 : 1);
     }
   };
+
+  if (isLowPowerMode) {
+    return (
+      <img
+        src={featherImg}
+        alt=""
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition: "center 40%",
+        }}
+      />
+    );
+  }
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%", backgroundColor: "#1c110a" }}>
