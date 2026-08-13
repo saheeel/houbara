@@ -456,6 +456,7 @@ a {
   position: absolute;
   inset: -4%;
   will-change: transform;
+  background-color: #1c110a;
 }
 
 .closing__bg img,
@@ -464,6 +465,11 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center 40%;
+  background-color: #1c110a;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .closing__bg::after {

@@ -138,6 +138,16 @@ function FeatherVideo() {
   const video2Ref = useRef(null);
   const [activeVideo, setActiveVideo] = useState(1);
 
+  useEffect(() => {
+    [video1Ref.current, video2Ref.current].forEach((vid) => {
+      if (vid) {
+        vid.muted = true;
+        vid.setAttribute("playsinline", "");
+        vid.setAttribute("webkit-playsinline", "");
+      }
+    });
+  }, []);
+
   const handleTimeUpdate = (videoNum) => {
     const activeRef = videoNum === 1 ? video1Ref : video2Ref;
     const nextRef = videoNum === 1 ? video2Ref : video1Ref;
@@ -146,17 +156,20 @@ function FeatherVideo() {
     if (!video || !video.duration) return;
     const timeLeft = video.duration - video.currentTime;
     
-    if (timeLeft <= 0.8 && activeVideo === videoNum) {
+    if (timeLeft <= 0.9 && activeVideo === videoNum) {
       if (nextRef.current) {
         nextRef.current.currentTime = 0;
-        nextRef.current.play().catch(() => {});
+        const playPromise = nextRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {});
+        }
       }
       setActiveVideo(videoNum === 1 ? 2 : 1);
     }
   };
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+    <div style={{ position: "relative", width: "100%", height: "100%", backgroundColor: "#1c110a" }}>
       <video
         ref={video1Ref}
         src="/assets/feathervideo.mp4"
@@ -172,12 +185,16 @@ function FeatherVideo() {
           objectFit: "cover",
           objectPosition: "center 40%",
           opacity: activeVideo === 1 ? 1 : 0,
+          zIndex: activeVideo === 1 ? 2 : 1,
           transition: "opacity 0.8s ease-in-out",
+          backgroundColor: "#1c110a",
+          WebkitBackfaceVisibility: "hidden",
         }}
       />
       <video
         ref={video2Ref}
         src="/assets/feathervideo.mp4"
+        autoPlay
         muted
         playsInline
         onTimeUpdate={() => handleTimeUpdate(2)}
@@ -189,7 +206,10 @@ function FeatherVideo() {
           objectFit: "cover",
           objectPosition: "center 40%",
           opacity: activeVideo === 2 ? 1 : 0,
+          zIndex: activeVideo === 2 ? 2 : 1,
           transition: "opacity 0.8s ease-in-out",
+          backgroundColor: "#1c110a",
+          WebkitBackfaceVisibility: "hidden",
         }}
       />
     </div>
