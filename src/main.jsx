@@ -133,119 +133,91 @@ function ThreeAtmosphere() {
   return <div className="three-atmosphere" ref={mountRef} aria-hidden="true" />;
 }
 
-function FeatherVideo() {
-  const video1Ref = useRef(null);
-  const video2Ref = useRef(null);
-  const [activeVideo, setActiveVideo] = useState(1);
-  const [isLowPowerMode, setIsLowPowerMode] = useState(false);
+function FeatherCanvas() {
+  const canvasRef = useRef(null);
 
   useEffect(() => {
-    [video1Ref.current, video2Ref.current].forEach((vid) => {
-      if (vid) {
-        vid.muted = true;
-        vid.setAttribute("playsinline", "");
-        vid.setAttribute("webkit-playsinline", "");
-      }
-    });
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    if (video1Ref.current) {
-      const p = video1Ref.current.play();
-      if (p !== undefined) {
-        p.catch(() => {
-          setIsLowPowerMode(true);
-        });
+    const frameCount = 357;
+    const images = [];
+    let currentFrame = 0;
+    let animId = null;
+    let lastTime = performance.now();
+    const fps = 24;
+    const interval = 1000 / fps;
+
+    const drawCoverImage = (img) => {
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+      const cW = canvas.width;
+      const cH = canvas.height;
+      const iW = img.naturalWidth;
+      const iH = img.naturalHeight;
+      const scale = Math.max(cW / iW, cH / iH);
+      const x = (cW - iW * scale) / 2;
+      const y = (cH - iH * scale) * 0.4;
+      ctx.clearRect(0, 0, cW, cH);
+      ctx.drawImage(img, x, y, iW * scale, iH * scale);
+    };
+
+    const resizeCanvas = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      if (images[currentFrame] && images[currentFrame].complete) {
+        drawCoverImage(images[currentFrame]);
       }
+    };
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    for (let i = 1; i <= frameCount; i++) {
+      const img = new Image();
+      const numStr = i.toString().padStart(3, "0");
+      img.src = `/assets/feather_frames/frame_${numStr}.jpg`;
+      img.onload = () => {
+        if (i === 1 && currentFrame === 0) {
+          drawCoverImage(img);
+        }
+      };
+      images.push(img);
     }
-  }, []);
 
-  const handleTimeUpdate = (videoNum) => {
-    const activeRef = videoNum === 1 ? video1Ref : video2Ref;
-    const nextRef = videoNum === 1 ? video2Ref : video1Ref;
-    const video = activeRef.current;
-    
-    if (!video || !video.duration) return;
-    const timeLeft = video.duration - video.currentTime;
-    
-    if (timeLeft <= 0.9 && activeVideo === videoNum) {
-      if (nextRef.current) {
-        nextRef.current.currentTime = 0;
-        const playPromise = nextRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            setIsLowPowerMode(true);
-          });
+    const render = (now) => {
+      animId = requestAnimationFrame(render);
+      const delta = now - lastTime;
+      if (delta >= interval) {
+        lastTime = now - (delta % interval);
+        currentFrame = (currentFrame + 1) % frameCount;
+        if (images[currentFrame] && images[currentFrame].complete) {
+          drawCoverImage(images[currentFrame]);
         }
       }
-      setActiveVideo(videoNum === 1 ? 2 : 1);
-    }
-  };
+    };
 
-  if (isLowPowerMode) {
-    return (
-      <img
-        src={featherImg}
-        alt=""
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "center 40%",
-        }}
-      />
-    );
-  }
+    animId = requestAnimationFrame(render);
+
+    return () => {
+      if (animId) cancelAnimationFrame(animId);
+      window.removeEventListener("resize", resizeCanvas);
+    };
+  }, []);
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "100%", backgroundColor: "#1c110a" }}>
-      <video
-        ref={video1Ref}
-        src="/assets/feathervideo.mp4"
-        autoPlay
-        muted
-        playsInline
-        disablePictureInPicture
-        controls={false}
-        onTimeUpdate={() => handleTimeUpdate(1)}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "center 40%",
-          opacity: activeVideo === 1 ? 1 : 0,
-          zIndex: activeVideo === 1 ? 2 : 1,
-          transition: "opacity 0.8s ease-in-out",
-          backgroundColor: "#1c110a",
-          WebkitBackfaceVisibility: "hidden",
-          pointerEvents: "none",
-        }}
-      />
-      <video
-        ref={video2Ref}
-        src="/assets/feathervideo.mp4"
-        autoPlay
-        muted
-        playsInline
-        disablePictureInPicture
-        controls={false}
-        onTimeUpdate={() => handleTimeUpdate(2)}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "center 40%",
-          opacity: activeVideo === 2 ? 1 : 0,
-          zIndex: activeVideo === 2 ? 2 : 1,
-          transition: "opacity 0.8s ease-in-out",
-          backgroundColor: "#1c110a",
-          WebkitBackfaceVisibility: "hidden",
-          pointerEvents: "none",
-        }}
-      />
-    </div>
+    <canvas
+      ref={canvasRef}
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "block",
+        backgroundColor: "#1c110a",
+      }}
+    />
   );
 }
 
@@ -631,7 +603,7 @@ function App() {
       {/* ٥ — الختام */}
       <section className="closing">
         <div className="closing__bg" aria-hidden="true">
-          <FeatherVideo />
+          <FeatherCanvas />
         </div>
         <div className="closing__content">
           <p className="closing__line">
