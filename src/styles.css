@@ -310,17 +310,19 @@ a {
 }
 
 .l-title {
-  font-weight: 400;
+  font-weight: 700;
   font-size: clamp(24px, 4.2vw, 40px);
   line-height: 1.95;
   max-width: 22em;
-  margin: clamp(20px, 3vh, 34px) auto 0;
+  margin: clamp(48px, 7vh, 80px) auto 0;
   color: var(--brown);
+  -webkit-text-stroke: 0.5px var(--brown);
 }
 
 .l-title .tw {
   display: inline-block;
   margin-inline: 0.1em;
+  font-weight: 700;
   will-change: opacity;
 }
 
@@ -634,6 +636,8 @@ a {
   .l-title {
     font-size: 18px;
     line-height: 2.05;
+    font-weight: 700;
+    -webkit-text-stroke: 0.5px var(--brown);
   }
 
   .appreciation {
@@ -1193,7 +1197,7 @@ a {
   width: clamp(240px, 60vw, 360px);
   max-width: 80%;
   height: auto;
-  filter: brightness(0) saturate(100%) invert(77%) sepia(16%) saturate(600%) hue-rotate(345deg) brightness(90%) contrast(85%);
+  filter: url('#to-nadwa-brown');
   opacity: 0;
   transform: scale(0.9);
 }

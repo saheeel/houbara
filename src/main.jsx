@@ -230,6 +230,15 @@ function SplashScreen() {
 
   return (
     <div className="splash-screen" ref={splashRef}>
+      <svg style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
+        <filter id="to-nadwa-brown" colorInterpolationFilters="sRGB">
+          <feColorMatrix type="matrix" values="
+            0 0 0 0 0.2431
+            0 0 0 0 0.1608
+            0 0 0 0 0.1176
+            0 0 0 1 0" />
+        </filter>
+      </svg>
       <img src={externaLogo} alt="مكتب محميات الدولة الخارجية" className="splash-logo" />
     </div>
   );
