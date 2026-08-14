@@ -330,8 +330,11 @@ function App() {
       });
 
       /* hero — scrolling video timelapse */
-      const frameCount = 145; // Frames 0 to 144
-      const currentFrame = index => `/assets/0003/000/frame-${index.toString().padStart(6, '0')}.jpg`;
+      const isMobile = window.innerWidth <= 768;
+      const frameCount = isMobile ? 145 : 79; // Frames 0 to 144 (mobile), 0 to 78 (desktop)
+      const currentFrame = index => isMobile 
+        ? `/assets/0003/000/frame-${index.toString().padStart(6, '0')}.jpg`
+        : `/assets/0001/frame-${index.toString().padStart(6, '0')}.jpg`;
       
       const canvas = document.getElementById("hero-canvas");
       let context = null;
