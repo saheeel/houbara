@@ -276,8 +276,6 @@ function App() {
     } catch (e) {
       guest = rawParam.replace(/_/g, " ");
     }
-    // Set document title in the browser tab dynamically
-    document.title = `دعوة خاصة إلى السيد / ${guest} | استدامة الحبارى`;
   }
 
   useLayoutEffect(() => {

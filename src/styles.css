@@ -216,7 +216,7 @@ a {
   justify-items: center;
   gap: 8px;
   color: var(--ink-soft);
-  font-size: clamp(12px, 1.6vw, 15px);
+  font-size: clamp(18px, 2.5vw, 22px);
   letter-spacing: 0.04em;
 }
 
