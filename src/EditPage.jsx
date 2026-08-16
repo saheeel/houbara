@@ -122,7 +122,7 @@ export default function EditPage() {
                   </div>
 
                   <p className="paper-invitation-text">
-                    يسر مكتب محميات الدولة الخارجية بدعوتكم للمشاركة كأحد المتحدثين في الندوة العلمية الفنية الوطنية بعنوان:
+                    يسر مكتب محميات الدولة الخارجية دعوتكم لحضور الندوة العلمية الفنية الوطنية بعنوان:
                   </p>
 
                   <div className="paper-grand-title">
