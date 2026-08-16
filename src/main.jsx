@@ -331,7 +331,7 @@ function App() {
 
       /* hero — scrolling video timelapse */
       const isMobile = window.innerWidth <= 768;
-      const frameCount = isMobile ? 145 : 79; // Frames 0 to 144 (mobile), 0 to 78 (desktop)
+      const frameCount = isMobile ? 73 : 79; // Frames 0 to 72 (mobile), 0 to 78 (desktop)
       const currentFrame = index => isMobile 
         ? `/assets/0003/000/frame-${index.toString().padStart(6, '0')}.jpg`
         : `/assets/0001/frame-${index.toString().padStart(6, '0')}.jpg`;
@@ -352,12 +352,13 @@ function App() {
 
         const renderFrame = () => {
           if(images[imageSeq.frame] && images[imageSeq.frame].complete && images[imageSeq.frame].naturalHeight !== 0) {
-             if (canvas.width !== images[0].width || canvas.height !== images[0].height) {
-                canvas.width = images[0].width;
-                canvas.height = images[0].height;
+             const img = images[imageSeq.frame];
+             if (canvas.width !== img.naturalWidth || canvas.height !== img.naturalHeight) {
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
              }
              context.clearRect(0, 0, canvas.width, canvas.height);
-             context.drawImage(images[imageSeq.frame], 0, 0);
+             context.drawImage(img, 0, 0);
           }
         };
 
