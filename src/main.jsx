@@ -257,7 +257,7 @@ function Rsvp() {
         <h2>تأكيد الحضور</h2>
         <p className="lead">يرجى تأكيد حضوركم عبر الرابط أدناه.</p>
         <div className="rsvp__actions">
-          <a href="https://example.com" target="_blank" rel="noreferrer">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfD3kl2uASEnSe725ulzKygLdKgtpjhLGv-bLpdI9zT22FzaQ/viewform" target="_blank" rel="noreferrer">
             RSVP
           </a>
         </div>
