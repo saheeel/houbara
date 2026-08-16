@@ -562,7 +562,7 @@ function App() {
               </span>
             ))}
           </h1>
-          <p className="appreciation" style={{ textAlign: "center", marginTop: "8rem", marginBottom: "2rem" }}>
+          <p className="appreciation" style={{ textAlign: "center" }}>
             والتي تهدف إلى تسليط الضوء على الجهود والممارسات الوطنية في مجال المحافظة على الحبارى وإكثارها، واستعراض أحدث التوجهات والابتكارات، وتعزيز تبادل الخبرات والمعارف بين المختصين والمهتمين.
           </p>
         </div>

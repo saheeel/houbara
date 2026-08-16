@@ -354,7 +354,7 @@ a {
   color: var(--brown);
   font-family: var(--font-display);
   max-width: 28em;
-  margin: 0 auto clamp(60px, 9svh, 110px);
+  margin: 8rem auto 2rem;
   line-height: 2.1;
 }
 
@@ -657,6 +657,7 @@ video::-webkit-media-controls-container {
     font-size: 20px;
     line-height: 1.9;
     max-width: 100%;
+    margin: 3rem auto 2rem;
   }
 
   .card strong {
