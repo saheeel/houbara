@@ -313,6 +313,31 @@ function Rsvp({ defaultGuest = "" }) {
       });
   }, []);
 
+  // Automatically switch selected date if the current choice becomes full/disabled
+  useEffect(() => {
+    if (isBothFull && formData.attendanceDate === "both") {
+      if (!isDay1Full) {
+        setFormData((prev) => ({ ...prev, attendanceDate: "09/09/2026" }));
+      } else if (!isDay2Full) {
+        setFormData((prev) => ({ ...prev, attendanceDate: "10/09/2026" }));
+      } else {
+        setFormData((prev) => ({ ...prev, attendanceDate: "" }));
+      }
+    } else if (isDay1Full && formData.attendanceDate === "09/09/2026") {
+      if (!isDay2Full) {
+        setFormData((prev) => ({ ...prev, attendanceDate: "10/09/2026" }));
+      } else {
+        setFormData((prev) => ({ ...prev, attendanceDate: "" }));
+      }
+    } else if (isDay2Full && formData.attendanceDate === "10/09/2026") {
+      if (!isDay1Full) {
+        setFormData((prev) => ({ ...prev, attendanceDate: "09/09/2026" }));
+      } else {
+        setFormData((prev) => ({ ...prev, attendanceDate: "" }));
+      }
+    }
+  }, [isDay1Full, isDay2Full, isBothFull, formData.attendanceDate]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -398,6 +423,10 @@ function Rsvp({ defaultGuest = "" }) {
     }
   };
 
+  const isDay1Selected = formData.attendanceDate === "09/09/2026" && !isDay1Full;
+  const isDay2Selected = formData.attendanceDate === "10/09/2026" && !isDay2Full;
+  const isBothSelected = formData.attendanceDate === "both" && !isBothFull;
+
   return (
     <section className="rsvp" id="rsvp">
       <div className="rsvp__card fade-up">
@@ -460,7 +489,7 @@ function Rsvp({ defaultGuest = "" }) {
                 <button
                   type="button"
                   disabled={isDay1Full}
-                  className={`rsvp__date-card ${formData.attendanceDate === "09/09/2026" ? "selected" : ""} ${isDay1Full ? "disabled" : ""}`}
+                  className={`rsvp__date-card ${isDay1Selected ? "selected" : ""} ${isDay1Full ? "disabled" : ""}`}
                   onClick={() => !isDay1Full && handleDateSelect("09/09/2026")}
                 >
                   <div className="rsvp__radio-indicator">
@@ -477,7 +506,7 @@ function Rsvp({ defaultGuest = "" }) {
                 <button
                   type="button"
                   disabled={isDay2Full}
-                  className={`rsvp__date-card ${formData.attendanceDate === "10/09/2026" ? "selected" : ""} ${isDay2Full ? "disabled" : ""}`}
+                  className={`rsvp__date-card ${isDay2Selected ? "selected" : ""} ${isDay2Full ? "disabled" : ""}`}
                   onClick={() => !isDay2Full && handleDateSelect("10/09/2026")}
                 >
                   <div className="rsvp__radio-indicator">
@@ -494,7 +523,7 @@ function Rsvp({ defaultGuest = "" }) {
                 <button
                   type="button"
                   disabled={isBothFull}
-                  className={`rsvp__date-card rsvp__date-card--full ${formData.attendanceDate === "both" ? "selected" : ""} ${isBothFull ? "disabled" : ""}`}
+                  className={`rsvp__date-card rsvp__date-card--full ${isBothSelected ? "selected" : ""} ${isBothFull ? "disabled" : ""}`}
                   onClick={() => !isBothFull && handleDateSelect("both")}
                 >
                   <div className="rsvp__radio-indicator">

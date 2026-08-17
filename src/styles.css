@@ -761,20 +761,31 @@ video::-webkit-media-controls-container {
 
 /* Disabled option state (Fully Booked 50 seats) */
 .rsvp__date-card.disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  background: rgba(225, 220, 210, 0.4);
-  border-color: rgba(180, 170, 155, 0.4);
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  background: rgba(230, 225, 215, 0.4) !important;
+  border: 1px dashed rgba(180, 170, 155, 0.5) !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 .rsvp__date-card.disabled:hover {
-  transform: none;
-  box-shadow: none;
-  border-color: rgba(180, 170, 155, 0.4);
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: rgba(180, 170, 155, 0.5) !important;
+}
+
+.rsvp__date-card.disabled .rsvp__radio-indicator {
+  border-color: rgba(180, 170, 155, 0.4) !important;
+  background: rgba(220, 215, 205, 0.5) !important;
+}
+
+.rsvp__date-card.disabled .rsvp__radio-dot {
+  transform: scale(0) !important;
 }
 
 .rsvp__date-card.disabled .rsvp__date-lbl {
-  color: #c0392b;
+  color: #c0392b !important;
   font-weight: 600;
 }
 
