@@ -328,6 +328,14 @@ function Rsvp({ defaultGuest = "" }) {
       setErrorMessage("عذراً، اكتمل العدد لجميع أيام الندوة.");
       return;
     }
+    if (
+      (formData.attendanceDate === "09/09/2026" && isDay1Full) ||
+      (formData.attendanceDate === "10/09/2026" && isDay2Full) ||
+      (formData.attendanceDate === "both" && isBothFull)
+    ) {
+      setErrorMessage("عذراً، اكتمل العدد لهذا الموعد. يرجى اختيار موعد آخر.");
+      return;
+    }
     if (!formData.name.trim()) {
       setErrorMessage("يرجى إدخال الاسم");
       return;
@@ -368,6 +376,20 @@ function Rsvp({ defaultGuest = "" }) {
       } else {
         await new Promise((resolve) => setTimeout(resolve, 800));
       }
+
+      // Optimistically update local count for instant UI locking
+      setSeatCounts((prev) => ({
+        ...prev,
+        day1Count:
+          formData.attendanceDate === "09/09/2026" || formData.attendanceDate === "both"
+            ? prev.day1Count + 1
+            : prev.day1Count,
+        day2Count:
+          formData.attendanceDate === "10/09/2026" || formData.attendanceDate === "both"
+            ? prev.day2Count + 1
+            : prev.day2Count,
+      }));
+
       setStatus("success");
     } catch (err) {
       console.error("RSVP Error:", err);
