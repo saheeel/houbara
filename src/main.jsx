@@ -501,7 +501,6 @@ function Rsvp({ defaultGuest = "" }) {
             </div>
           </form>
         )}
->>>>>>> e76b9f0 (feat: add 2-day RSVP form with Google Sheets integration and 50 seats limit)
       </div>
     </section>
   );
