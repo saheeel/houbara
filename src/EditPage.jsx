@@ -116,7 +116,7 @@ export default function EditPage() {
                       />
                       <span className="input-gold-line" aria-hidden="true" />
                     </div>
-                    <span className="muhtaram-label">المحترم</span>
+                    {guestName.trim() ? <span className="muhtaram-label">المحترم</span> : null}
                   </div>
 
                   <p className="paper-invitation-text">

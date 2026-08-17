@@ -847,9 +847,11 @@ function App() {
           </picture>
         </div>
         <div className="letter__paper">
-          <p className="l-dear">
-            {guest ? <em>{guest} </em> : null}المحترم
-          </p>
+          {guest ? (
+            <p className="l-dear">
+              <em>{guest}</em> المحترم
+            </p>
+          ) : null}
           <p className="l-invite">
             يسر مكتب محميات الدولة الخارجية دعوتكم لحضور الندوة العلمية الفنية الوطنية بعنوان:
           </p>
