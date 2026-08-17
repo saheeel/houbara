@@ -249,18 +249,259 @@ function SplashScreen() {
   );
 }
 
-function Rsvp() {
+// Replace with your deployed Google Apps Script Web App URL
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYma4IqRjs3tqukIxqjGdvL7do3OKc4lNTjKQACtrFswyyo6m0PopBEY__eTU4q7fbfA/exec";
+
+const MAX_SEATS_PER_DAY = 50;
+
+function Rsvp({ defaultGuest = "" }) {
+  const [formData, setFormData] = useState({
+    name: defaultGuest,
+    phone: "",
+    attendanceDate: "both", // '09/09/2026', '10/09/2026', or 'both'
+    guestCount: "1",
+    notes: "",
+  });
+
+  const [seatCounts, setSeatCounts] = useState({
+    day1Count: 0,
+    day2Count: 0,
+    loading: true,
+  });
+
+  const [status, setStatus] = useState("idle"); // 'idle' | 'loading' | 'success' | 'error'
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const isDay1Full = seatCounts.day1Count >= MAX_SEATS_PER_DAY;
+  const isDay2Full = seatCounts.day2Count >= MAX_SEATS_PER_DAY;
+  const isBothFull = isDay1Full || isDay2Full;
+  const isAllFull = isDay1Full && isDay2Full;
+
+  useEffect(() => {
+    if (!GOOGLE_SCRIPT_URL) {
+      setSeatCounts({ day1Count: 0, day2Count: 0, loading: false });
+      return;
+    }
+
+    fetch(GOOGLE_SCRIPT_URL)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && typeof data.day1Count === "number") {
+          setSeatCounts({
+            day1Count: data.day1Count,
+            day2Count: data.day2Count,
+            loading: false,
+          });
+
+          // Adjust initial selection if default 'both' is unavailable due to capacity
+          if (data.day1Count >= MAX_SEATS_PER_DAY || data.day2Count >= MAX_SEATS_PER_DAY) {
+            if (data.day1Count < MAX_SEATS_PER_DAY) {
+              setFormData((prev) => ({ ...prev, attendanceDate: "09/09/2026" }));
+            } else if (data.day2Count < MAX_SEATS_PER_DAY) {
+              setFormData((prev) => ({ ...prev, attendanceDate: "10/09/2026" }));
+            } else {
+              setFormData((prev) => ({ ...prev, attendanceDate: "" }));
+            }
+          }
+        } else {
+          setSeatCounts((prev) => ({ ...prev, loading: false }));
+        }
+      })
+      .catch((err) => {
+        console.warn("Could not fetch seat counts:", err);
+        setSeatCounts((prev) => ({ ...prev, loading: false }));
+      });
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleDateSelect = (val) => {
+    setFormData((prev) => ({ ...prev, attendanceDate: val }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (isAllFull) {
+      setErrorMessage("عذراً، اكتمل العدد لجميع أيام الندوة.");
+      return;
+    }
+    if (!formData.name.trim()) {
+      setErrorMessage("يرجى إدخال الاسم");
+      return;
+    }
+    if (!formData.phone.trim()) {
+      setErrorMessage("يرجى إدخال رقم الهاتف");
+      return;
+    }
+    if (!formData.attendanceDate) {
+      setErrorMessage("يرجى تحديد موعد الحضور المناسب");
+      return;
+    }
+
+    setStatus("loading");
+    setErrorMessage("");
+
+    try {
+      if (GOOGLE_SCRIPT_URL) {
+        const payload = new URLSearchParams();
+        payload.append("name", formData.name);
+        payload.append("phone", formData.phone);
+        payload.append(
+          "attendanceDateFormatted",
+          formData.attendanceDate === "both"
+            ? "09/09/2026 & 10/09/2026 (كلا اليومين)"
+            : formData.attendanceDate
+        );
+        payload.append("timestamp", new Date().toLocaleString("ar-QA"));
+
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: payload.toString(),
+        });
+      } else {
+        await new Promise((resolve) => setTimeout(resolve, 800));
+      }
+      setStatus("success");
+    } catch (err) {
+      console.error("RSVP Error:", err);
+      setStatus("error");
+      setErrorMessage("حدث خطأ أثناء إرسال التأكيد. يرجى المحاولة مرة أخرى.");
+    }
+  };
+
   return (
     <section className="rsvp" id="rsvp">
       <div className="rsvp__card fade-up">
-        <p className="rsvp__kicker">RSVP</p>
+        <p className="rsvp__kicker">تأكيد الحضور</p>
         <h2>تأكيد الحضور</h2>
-        <p className="lead">يرجى تأكيد حضوركم عبر الرابط أدناه.</p>
-        <div className="rsvp__actions">
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfD3kl2uASEnSe725ulzKygLdKgtpjhLGv-bLpdI9zT22FzaQ/viewform" target="_blank" rel="noreferrer">
-            RSVP
-          </a>
-        </div>
+        <p className="lead">
+          يسر مكتب محميات الدولة الخارجية دعوتكم لحضور الندوة العلمية الفنية الوطنية
+        </p>
+
+        {status === "success" ? (
+          <div className="rsvp__success">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3>شكراً لكم، تم استلام تأكيد الحضور بنجاح!</h3>
+            <p>نتطلع لرؤيتكم في الندوة العلمية الفنية الوطنية.</p>
+            <button
+              type="button"
+              className="rsvp__reset-btn"
+              onClick={() => setStatus("idle")}
+            >
+              تعديل التأكيد
+            </button>
+          </div>
+        ) : (
+          <form className="rsvp__form" onSubmit={handleSubmit}>
+            <div className="rsvp__field">
+              <label htmlFor="rsvp-name">الاسم *</label>
+              <input
+                type="text"
+                id="rsvp-name"
+                name="name"
+                required
+                disabled={isAllFull}
+                placeholder="أدخل الاسم الكامل"
+                value={formData.name}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="rsvp__field">
+              <label htmlFor="rsvp-phone">رقم الهاتف *</label>
+              <input
+                type="tel"
+                id="rsvp-phone"
+                name="phone"
+                required
+                disabled={isAllFull}
+                placeholder="أدخل رقم الهاتف"
+                value={formData.phone}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="rsvp__field">
+              <label>
+                يرجى تحديد الموعد الملائم لحضوركم *
+              </label>
+              <div className="rsvp__date-options">
+                <button
+                  type="button"
+                  disabled={isDay1Full}
+                  className={`rsvp__date-card ${formData.attendanceDate === "09/09/2026" ? "selected" : ""} ${isDay1Full ? "disabled" : ""}`}
+                  onClick={() => !isDay1Full && handleDateSelect("09/09/2026")}
+                >
+                  <div className="rsvp__radio-indicator">
+                    <span className="rsvp__radio-dot" />
+                  </div>
+                  <div className="rsvp__date-info">
+                    <span className="rsvp__date-num">09/09/2026</span>
+                    <span className="rsvp__date-lbl">
+                      {isDay1Full ? "اكتمل العدد" : "اليوم الأول"}
+                    </span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={isDay2Full}
+                  className={`rsvp__date-card ${formData.attendanceDate === "10/09/2026" ? "selected" : ""} ${isDay2Full ? "disabled" : ""}`}
+                  onClick={() => !isDay2Full && handleDateSelect("10/09/2026")}
+                >
+                  <div className="rsvp__radio-indicator">
+                    <span className="rsvp__radio-dot" />
+                  </div>
+                  <div className="rsvp__date-info">
+                    <span className="rsvp__date-num">10/09/2026</span>
+                    <span className="rsvp__date-lbl">
+                      {isDay2Full ? "اكتمل العدد" : "اليوم الثاني"}
+                    </span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  disabled={isBothFull}
+                  className={`rsvp__date-card rsvp__date-card--full ${formData.attendanceDate === "both" ? "selected" : ""} ${isBothFull ? "disabled" : ""}`}
+                  onClick={() => !isBothFull && handleDateSelect("both")}
+                >
+                  <div className="rsvp__radio-indicator">
+                    <span className="rsvp__radio-dot" />
+                  </div>
+                  <div className="rsvp__date-info">
+                    <span className="rsvp__date-num">09/09/2026 & 10/09/2026</span>
+                    <span className="rsvp__date-lbl">
+                      {isBothFull ? "اكتمل العدد" : "كلا اليومين"}
+                    </span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {errorMessage && <p className="rsvp__error">{errorMessage}</p>}
+
+            <div className="rsvp__actions">
+              <button type="submit" disabled={status === "loading" || isAllFull}>
+                {isAllFull
+                  ? "اكتمل العدد"
+                  : status === "loading"
+                  ? "جاري الإرسال..."
+                  : "تأكيد الحضور"}
+              </button>
+            </div>
+          </form>
+        )}
+>>>>>>> e76b9f0 (feat: add 2-day RSVP form with Google Sheets integration and 50 seats limit)
       </div>
     </section>
   );
@@ -329,20 +570,19 @@ function App() {
         scrollTrigger: { start: 0, end: "max", scrub: 0.4 },
       });
 
-      /* hero — scrolling video timelapse */
       const isMobile = window.innerWidth <= 768;
       const frameCount = isMobile ? 73 : 79; // Frames 0 to 72 (mobile), 0 to 78 (desktop)
       const currentFrame = index => isMobile 
         ? `/assets/0003/000/frame-${index.toString().padStart(6, '0')}.jpg`
         : `/assets/0001/frame-${index.toString().padStart(6, '0')}.jpg`;
-      
+
       const canvas = document.getElementById("hero-canvas");
       let context = null;
       if (canvas) context = canvas.getContext("2d");
 
       const images = [];
       const imageSeq = { frame: 0 };
-      
+
       if (canvas) {
         for (let i = 0; i < frameCount; i++) {
           const img = new Image();
@@ -366,7 +606,7 @@ function App() {
 
         /* hero — slow drift out while leaving */
         gsap.set(".hero__bg", { scale: 1.12 });
-        
+
         let heroTl = gsap.timeline({
           scrollTrigger: {
             trigger: ".hero",
@@ -389,7 +629,7 @@ function App() {
           .to(".hero__content", { yPercent: -40, autoAlpha: 0, ease: "none" }, 0)
           .to(".scrollcue", { autoAlpha: 0, ease: "none" }, 0)
           .to(".brand", { autoAlpha: 0, ease: "none" }, 0.1)
-          .to("#hero-canvas", { autoAlpha: 0, ease: "none" }, 0); 
+          .to("#hero-canvas", { autoAlpha: 0, ease: "none" }, 0);
       }
 
       /* the letter — greeting, invitation and title all reveal on one page */
@@ -615,7 +855,7 @@ function App() {
         </div>
       </section>
 
-      <Rsvp />
+      <Rsvp defaultGuest={guest} />
 
       <footer className="footer">
         <div className="footer__logos">
