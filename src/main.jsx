@@ -388,7 +388,15 @@ function Rsvp({ defaultGuest = "" }) {
             ? "09/09/2026 & 10/09/2026 (كلا اليومين)"
             : formData.attendanceDate
         );
-        payload.append("timestamp", new Date().toLocaleString("ar-QA"));
+        const now = new Date();
+        const dd = String(now.getDate()).padStart(2, "0");
+        const mm = String(now.getMonth() + 1).padStart(2, "0");
+        const yyyy = now.getFullYear();
+        const hh = String(now.getHours()).padStart(2, "0");
+        const min = String(now.getMinutes()).padStart(2, "0");
+        const formattedTimestamp = `${dd}/${mm}/${yyyy} ${hh}:${min}`;
+
+        payload.append("timestamp", formattedTimestamp);
 
         await fetch(GOOGLE_SCRIPT_URL, {
           method: "POST",
