@@ -90,7 +90,7 @@ export default function EditPage() {
               </div>
               <h2 className="card-heading">توليد بطاقة ومستند دعوة شخصية</h2>
               <p className="card-subheading">
-                اكتب اسم المدعو بعد كلمة <strong>(السيد)</strong> لتحديث البطاقة فورًا وتوليد رابطها الخاص.
+                اكتب اسم المدعو لتحديث البطاقة فورًا وتوليد رابطها الخاص.
               </p>
             </div>
 
@@ -106,15 +106,13 @@ export default function EditPage() {
                 <div className="paper-body">
                   {/* Greeting Line with Seamless Inline Input */}
                   <div className="paper-greeting">
-                    <span className="sayyid-label">السيد /</span>
                     <div className="input-wrapper">
                       <input
                         type="text"
                         className="luxury-name-input"
                         value={guestName}
                         onChange={(e) => setGuestName(e.target.value)}
-                        placeholder="اكتب اسم المدعو هنا..."
-                        autoFocus
+                        placeholder="اسم المدعو..."
                       />
                       <span className="input-gold-line" aria-hidden="true" />
                     </div>

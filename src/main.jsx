@@ -848,7 +848,7 @@ function App() {
         </div>
         <div className="letter__paper">
           <p className="l-dear">
-            السيد / <em>{guest || "………………………………"}</em> المحترم
+            {guest ? <em>{guest} </em> : null}المحترم
           </p>
           <p className="l-invite">
             يسر مكتب محميات الدولة الخارجية دعوتكم لحضور الندوة العلمية الفنية الوطنية بعنوان:
