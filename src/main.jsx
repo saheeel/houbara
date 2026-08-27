@@ -868,37 +868,85 @@ function App() {
         </div>
       </section>
 
-      {/* ٣ — التفاصيل */}
-      <section className="details" id="details">
-        <div className="cards">
-          <article className="card">
-            <span>التاريخ</span>
-            <strong>9 – 10 سبتمبر 2026م</strong>
+      {/* ٣ — برنامج الندوة */}
+      <section className="details schedule-section" id="details">
+        <div className="schedule-cards cards">
+          {/* اليوم الأول — 9/9/2026 */}
+          <article className="schedule-card card">
+            <header className="schedule-card__header">
+              <h2 className="schedule-day-title">اليوم الأول — 9/9/2026</h2>
+              <div className="schedule-timing-badge">
+                <span>التوقيت: 1–9 صباحًا</span>
+              </div>
+            </header>
+
+            <div className="schedule-divider" aria-hidden="true" />
+
+            <h3 className="schedule-axes-title">المحاور:</h3>
+
+            <div className="schedule-topic-item topic-1">
+              <span className="schedule-num">١</span>
+              <span className="schedule-topic-text">
+                المحور الأول: دور مكتب محميات الدولة الخارجية في حماية وإكثار الحبارى
+              </span>
+            </div>
+            <div className="schedule-topic-item topic-2">
+              <span className="schedule-num">٢</span>
+              <span className="schedule-topic-text">
+                المحور الثاني: دعم المشاريع الوطنية والشراكات المؤسسية
+              </span>
+            </div>
+            <div className="schedule-topic-item topic-3">
+              <span className="schedule-num">٣</span>
+              <span className="schedule-topic-text">
+                المحور الثاني: دعم المشاريع الوطنية والشراكات المؤسسية
+              </span>
+            </div>
+            <div className="schedule-topic-item topic-4">
+              <span className="schedule-num">٤</span>
+              <span className="schedule-topic-text">
+                المحور الثالث: من الحماية البيئية إلى المبادرات الفردية: مسيرة استدامة الحبارى وصون التراث
+              </span>
+            </div>
           </article>
-          <article className="card">
-            <span>المناسبة</span>
-            <strong>على هامش معرض سهيل 2026</strong>
-          </article>
-          <article className="card">
-            <span>المكان</span>
-            <strong>المؤسسة العامة للحي الثقافي – كتارا</strong>
-            <a
-              className="map-btn"
-              href="https://maps.app.goo.gl/Rf9tu5pXZK5iUG2K7"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M12 21s7-6.3 7-11.5A7 7 0 1 0 5 9.5C5 14.7 12 21 12 21Z"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinejoin="round"
-                />
-                <circle cx="12" cy="9.3" r="2.5" stroke="currentColor" strokeWidth="1.6" />
-              </svg>
-              <span>الموقع على الخريطة</span>
-            </a>
+
+          {/* اليوم الثاني — 10/9/2026 */}
+          <article className="schedule-card card">
+            <header className="schedule-card__header">
+              <h2 className="schedule-day-title">اليوم الثاني — 10/9/2026</h2>
+              <div className="schedule-timing-badge">
+                <span>التوقيت: 9–6 مساءً</span>
+              </div>
+            </header>
+
+            <div className="schedule-divider" aria-hidden="true" />
+
+            <h3 className="schedule-axes-title">المحاور:</h3>
+
+            <div className="schedule-topic-item topic-1">
+              <span className="schedule-num">١</span>
+              <span className="schedule-topic-text">
+                المحور الخامس: إدارة التنوع الوراثي، الجينوم، والتقنيات الحيوية لطائر الحبارى
+              </span>
+            </div>
+            <div className="schedule-topic-item topic-2">
+              <span className="schedule-num">٢</span>
+              <span className="schedule-topic-text">
+                المحور السادس: الذكاء الاصطناعي والتحول الرقمي في إكثار وإدارة طائر الحبارى
+              </span>
+            </div>
+            <div className="schedule-topic-item topic-3">
+              <span className="schedule-num">٣</span>
+              <span className="schedule-topic-text">
+                المحور السابع: الرصد والتتبع والتقنيات الحديثة ودراسة سلوك الهجرة
+              </span>
+            </div>
+            <div className="schedule-topic-item topic-4">
+              <span className="schedule-num">٤</span>
+              <span className="schedule-topic-text">
+                المحور الثامن: البحث العلمي والابتكار واستشراف المستقبل في صون وإكثار طائر الحبارى
+              </span>
+            </div>
           </article>
         </div>
       </section>
