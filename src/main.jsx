@@ -871,12 +871,12 @@ function App() {
       {/* ٣ — برنامج الندوة */}
       <section className="details schedule-section" id="details">
         <div className="schedule-cards cards">
-          {/* اليوم الأول — 9/9/2026 */}
+          {/* اليوم الأول — 09/09/2026 */}
           <article className="schedule-card card">
             <header className="schedule-card__header">
-              <h2 className="schedule-day-title">اليوم الأول — 9/9/2026</h2>
+              <h2 className="schedule-day-title">اليوم الأول — 09/09/2026</h2>
               <div className="schedule-timing-badge">
-                <span>التوقيت: 1–9 صباحًا</span>
+                <span>التوقيت: 9 صباحًا – 1 مساءً</span>
               </div>
             </header>
 
@@ -910,12 +910,12 @@ function App() {
             </div>
           </article>
 
-          {/* اليوم الثاني — 10/9/2026 */}
+          {/* اليوم الثاني — 10/09/2026 */}
           <article className="schedule-card card">
             <header className="schedule-card__header">
-              <h2 className="schedule-day-title">اليوم الثاني — 10/9/2026</h2>
+              <h2 className="schedule-day-title">اليوم الثاني — 10/09/2026</h2>
               <div className="schedule-timing-badge">
-                <span>التوقيت: 9–6 مساءً</span>
+                <span>التوقيت: 6 – 9 مساءً</span>
               </div>
             </header>
 
