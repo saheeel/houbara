@@ -937,13 +937,13 @@ function App() {
             <div className="schedule-topic-item topic-3">
               <span className="schedule-num">3</span>
               <span className="schedule-topic-text">
-                المحور الثاني: دعم المشاريع الوطنية والشراكات المؤسسية
+                المحور الثالث: من الحماية البيئية إلى المبادرات الفردية: مسيرة استدامة الحبارى وصون التراث
               </span>
             </div>
             <div className="schedule-topic-item topic-4">
               <span className="schedule-num">4</span>
               <span className="schedule-topic-text">
-                المحور الثالث: من الحماية البيئية إلى المبادرات الفردية: مسيرة استدامة الحبارى وصون التراث
+                المحور الرابع: المفهوم القانوني لحوكمة الحبارى: قراءة في اتساق التشريعات المحلية مع الالتزامات الدولية
               </span>
             </div>
           </article>
