@@ -869,6 +869,7 @@ function App() {
           </div>
           <h1 className="hero__word">الندوة</h1>
           <p className="hero__sub">العلمية الفنية الوطنية</p>
+          <div className="hero__dates">9 – 10 سبتمبر 2026م</div>
         </div>
         <div className="scrollcue" aria-hidden="true">
           <span>اسحب للأعلى للمتابعة</span>

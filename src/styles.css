@@ -163,7 +163,7 @@ a {
 .hero__content {
   position: absolute;
   inset-inline: 0;
-  bottom: clamp(84px, 14svh, 150px);
+  bottom: clamp(96px, 15svh, 165px);
   z-index: 4;
   text-align: center;
   padding-inline: 24px;
@@ -205,6 +205,22 @@ a {
   color: var(--ink);
   letter-spacing: 0.01em;
   margin-top: 0.2em;
+}
+
+.hero__dates {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 2.1vw, 20px);
+  color: var(--brown);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-top: 0.65em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(176, 141, 87, 0.12);
+  border: 1px solid rgba(176, 141, 87, 0.35);
+  padding: 6px 22px;
+  border-radius: 30px;
 }
 
 .scrollcue {
