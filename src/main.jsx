@@ -257,6 +257,7 @@ const MAX_SEATS_PER_DAY = 50;
 function Rsvp({ defaultGuest = "" }) {
   const [formData, setFormData] = useState({
     name: defaultGuest,
+    organization: "",
     phone: "",
     attendanceDate: "both", // '09/09/2026', '10/09/2026', or 'both'
     guestCount: "1",
@@ -381,6 +382,7 @@ function Rsvp({ defaultGuest = "" }) {
       if (GOOGLE_SCRIPT_URL) {
         const payload = new URLSearchParams();
         payload.append("name", formData.name);
+        payload.append("organization", formData.organization);
         payload.append("phone", formData.phone);
         payload.append(
           "attendanceDateFormatted",
@@ -476,6 +478,19 @@ function Rsvp({ defaultGuest = "" }) {
             </div>
 
             <div className="rsvp__field">
+              <label htmlFor="rsvp-organization">جهة العمل؟</label>
+              <input
+                type="text"
+                id="rsvp-organization"
+                name="organization"
+                disabled={isAllFull}
+                placeholder="أدخل جهة العمل"
+                value={formData.organization}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="rsvp__field">
               <label htmlFor="rsvp-phone">رقم الهاتف *</label>
               <input
                 type="tel"
@@ -545,6 +560,29 @@ function Rsvp({ defaultGuest = "" }) {
                   </div>
                 </button>
               </div>
+            </div>
+
+            <div className="rsvp__location-display">
+              <div className="rsvp__location-header">
+                <span className="rsvp__location-label">الموقع</span>
+                <a
+                  href="https://maps.app.goo.gl/krQLcmUd4RhurUPq7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rsvp__location-value-link"
+                  title="فتح الموقع على الخريطة"
+                >
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                  <span>المؤسسة العامة للحي الثقافي - كتارا</span>
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: "auto" }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  </svg>
+                </a>
+              </div>
+              <p className="rsvp__location-note">ندوة في الغرفة رقم 15</p>
             </div>
 
             {errorMessage && <p className="rsvp__error">{errorMessage}</p>}

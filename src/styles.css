@@ -864,9 +864,60 @@ video::-webkit-media-controls-container {
   transform: scale(0) !important;
 }
 
-.rsvp__date-card.disabled .rsvp__date-lbl {
-  color: #c0392b !important;
+.rsvp__location-display {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: right;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid var(--gold-soft);
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
+.rsvp__location-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rsvp__location-label {
+  font-size: clamp(13px, 1.6vw, 15px);
+  color: var(--brown);
   font-weight: 600;
+}
+
+.rsvp__location-value-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(14px, 1.8vw, 16px);
+  color: var(--brown);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.25s ease, opacity 0.25s ease;
+  cursor: pointer;
+}
+
+.rsvp__location-value-link:hover {
+  color: var(--brown-deep);
+  opacity: 0.9;
+  text-decoration: underline;
+}
+
+.rsvp__location-value-link svg {
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.rsvp__location-note {
+  font-size: clamp(13px, 1.6vw, 14px);
+  color: var(--brown);
+  margin-top: 2px;
+  text-align: right;
+  font-weight: 500;
+  opacity: 0.85;
 }
 
 .rsvp__error {
