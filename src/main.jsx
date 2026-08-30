@@ -582,7 +582,7 @@ function Rsvp({ defaultGuest = "" }) {
                   </svg>
                 </a>
               </div>
-              <p className="rsvp__location-note">ندوة في الغرفة رقم 15</p>
+              <p className="rsvp__location-note">قاعة 15</p>
             </div>
 
             {errorMessage && <p className="rsvp__error">{errorMessage}</p>}
