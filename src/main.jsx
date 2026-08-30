@@ -923,25 +923,25 @@ function App() {
             <h3 className="schedule-axes-title">المحاور:</h3>
 
             <div className="schedule-topic-item topic-1">
-              <span className="schedule-num">١</span>
+              <span className="schedule-num">1</span>
               <span className="schedule-topic-text">
                 المحور الأول: دور مكتب محميات الدولة الخارجية في حماية وإكثار الحبارى
               </span>
             </div>
             <div className="schedule-topic-item topic-2">
-              <span className="schedule-num">٢</span>
+              <span className="schedule-num">2</span>
               <span className="schedule-topic-text">
                 المحور الثاني: دعم المشاريع الوطنية والشراكات المؤسسية
               </span>
             </div>
             <div className="schedule-topic-item topic-3">
-              <span className="schedule-num">٣</span>
+              <span className="schedule-num">3</span>
               <span className="schedule-topic-text">
                 المحور الثاني: دعم المشاريع الوطنية والشراكات المؤسسية
               </span>
             </div>
             <div className="schedule-topic-item topic-4">
-              <span className="schedule-num">٤</span>
+              <span className="schedule-num">4</span>
               <span className="schedule-topic-text">
                 المحور الثالث: من الحماية البيئية إلى المبادرات الفردية: مسيرة استدامة الحبارى وصون التراث
               </span>
@@ -962,25 +962,25 @@ function App() {
             <h3 className="schedule-axes-title">المحاور:</h3>
 
             <div className="schedule-topic-item topic-1">
-              <span className="schedule-num">١</span>
+              <span className="schedule-num">1</span>
               <span className="schedule-topic-text">
                 المحور الخامس: إدارة التنوع الوراثي، الجينوم، والتقنيات الحيوية لطائر الحبارى
               </span>
             </div>
             <div className="schedule-topic-item topic-2">
-              <span className="schedule-num">٢</span>
+              <span className="schedule-num">2</span>
               <span className="schedule-topic-text">
                 المحور السادس: الذكاء الاصطناعي والتحول الرقمي في إكثار وإدارة طائر الحبارى
               </span>
             </div>
             <div className="schedule-topic-item topic-3">
-              <span className="schedule-num">٣</span>
+              <span className="schedule-num">3</span>
               <span className="schedule-topic-text">
                 المحور السابع: الرصد والتتبع والتقنيات الحديثة ودراسة سلوك الهجرة
               </span>
             </div>
             <div className="schedule-topic-item topic-4">
-              <span className="schedule-num">٤</span>
+              <span className="schedule-num">4</span>
               <span className="schedule-topic-text">
                 المحور الثامن: البحث العلمي والابتكار واستشراف المستقبل في صون وإكثار طائر الحبارى
               </span>
