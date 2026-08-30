@@ -864,7 +864,7 @@ function App() {
         </header>
         <div className="hero__content">
           <div className="hero__kicker-wrapper" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
-            <span style={{ fontSize: "1.15em", color: "var(--ink-soft)" }}>سهيل</span>
+            <span style={{ fontSize: "1.15em", color: "#ffffff", textShadow: "0 1px 6px rgba(0,0,0,0.3)" }}>سهيل</span>
             <p className="hero__kicker" style={{ margin: 0 }}>معرض كتارا الدولي للصيد والصقور</p>
           </div>
           <h1 className="hero__word">الندوة</h1>
